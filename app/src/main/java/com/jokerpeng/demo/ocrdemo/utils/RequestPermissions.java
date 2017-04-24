@@ -3,6 +3,7 @@ package com.jokerpeng.demo.ocrdemo.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 
 /**
@@ -21,12 +22,22 @@ public class RequestPermissions {
      * 用于OCR识别
      * SD卡读写权限,开启摄像头权限
      * */
-    public static void verifyOCRPermissions(Activity activity) {
-        int permissionWrite = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if(permissionWrite != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, PERMISSION_OCR,
-                    REQUEST_OCR);
+    public static void verifyOCRPermissions(Activity activity,boolean b) {
+        if(b){
+            int permissionWrite = ActivityCompat.checkSelfPermission(activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if(permissionWrite != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, PERMISSION_OCR,
+                        REQUEST_OCR);
+            }
+        }
+    }
+
+    public static boolean verifySdkVersion(){
+        if (Build.VERSION.SDK_INT < 23) {
+            return false;
+        }else{
+            return true;
         }
     }
 
